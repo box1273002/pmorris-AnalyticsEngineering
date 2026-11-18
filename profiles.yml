@@ -1,8 +1,7 @@
-jaffle_shop:
+library:
   target: dev
   outputs:
     dev:
       type: duckdb
-      path: './my_project.duckdb'
-      schema: main   # optional; defaults to main
+      path: './library.duckdb'
       threads: 4     # optional
