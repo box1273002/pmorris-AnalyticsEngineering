@@ -1,0 +1,7 @@
+library.duckdb
+target/**
+logs/**
+dbt_packages/**
+dbt_internal_packages/**
+.env
+.vscode/**
