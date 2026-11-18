@@ -1,0 +1,8 @@
+jaffle_shop:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: './my_project.duckdb'
+      schema: main   # optional; defaults to main
+      threads: 4     # optional
