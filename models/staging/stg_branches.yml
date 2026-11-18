@@ -1,0 +1,25 @@
+models:
+  - name: stg_branches
+    description: Branch data with some basic cleaning/validation applied. 
+    columns:
+      - name: branch_id
+        description: The unique key for each branch.
+        data_tests:
+          - not_null
+          - unique
+      - name: branch_name
+        description: The plain text branch name.
+        data_tests:
+          - not_null
+      - name: area
+        description: The area where the branch is located (North, South, East, West)
+        data_tests:
+          - not_null
+          - accepted_values:
+                arguments:
+                  values: ['North', 'South', 'East', 'West']
+      - name: opened_year
+        description: The year in which the branch was opened
+        data_tests:
+          - not_null
+
