@@ -22,4 +22,10 @@ models:
         description: The year in which the branch was opened
         data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments: 
+                column_type: INTEGER
+          - dbt_utils.expression_is_true:
+              arguments:
+                  expression: "<= EXTRACT(YEAR FROM CURRENT_DATE) AND opened_year > 1900"
 
