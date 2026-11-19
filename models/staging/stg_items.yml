@@ -1,0 +1,37 @@
+models:
+  - name: stg_items
+    description: Item data including
+    columns:
+      - name: item_id
+        description: The unique key for each item.
+        data_tests:
+          - not_null
+          - unique
+      - name: title
+        description: The title of the item.
+        data_tests:
+          - not_null
+      - name: item_type
+        description: The type of the item (e.g Book, DVD)
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Dvd", "Audiobook", "Book"]
+      - name: category
+        description: The genre/category of the item (Non-Fiction)
+        data_tests:
+          - not_null
+      # - name: replacement_cost
+      #   description: The replacement cost of the item in GBP.
+      #   data_tests:
+      #     - not_null
+      - name: home_branch_id
+        description: The id of the home branch of the item.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_branches')
+                field: branch_id
+
