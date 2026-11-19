@@ -26,7 +26,7 @@ list_aggregate(
 -- The most aggressive normaliser
   regexp_replace(
         lower({{ string_strip(column_name) }}),
-        '[ _-]|s$|''',
+        '[ _-]|''',
         '',
         'g'
     )

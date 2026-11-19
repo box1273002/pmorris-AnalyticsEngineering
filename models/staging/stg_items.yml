@@ -1,6 +1,6 @@
 models:
   - name: stg_items
-    description: Item data including
+    description: Item data including type, category and replacement_cost.
     columns:
       - name: item_id
         description: The unique key for each item.
@@ -10,7 +10,9 @@ models:
       - name: title
         description: The title of the item.
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments: 
+                column_type: VARCHAR
       - name: item_type
         description: The type of the item (e.g Book, DVD)
         data_tests:

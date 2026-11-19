@@ -2,7 +2,7 @@ with
 
 source as (
 
-    select * from {{ ref('raw_branches') }}
+    select DISTINCT * from {{ ref('raw_branches') }}
 
 ),
 cleaned as (

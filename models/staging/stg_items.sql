@@ -1,9 +1,7 @@
 with
 
 source as (
-
-    select * from {{ ref('raw_items') }}
-
+    select DISTINCT * from {{ ref('raw_items') }}
 ),
 cleaned as (
   select 
@@ -21,9 +19,9 @@ cleaned as (
     {{ map_category(
       string_category("category"),
       {
-        'Children': ['children'],
+        'Children': ['children', 'childrens'],
         'Reference': ['ref.', 'reference'],
-        'Film': ['film'],
+        'Film': ['film', 'films'],
         'Fiction': ['fiction'],
         'Non-Fiction': ['nonfiction']
       }
