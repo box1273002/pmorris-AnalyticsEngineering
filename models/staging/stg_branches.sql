@@ -8,7 +8,7 @@ source as (
 cleaned as (
   select 
     * EXCLUDE(opened_year),
-    CAST(opened_year AS INT) AS opened_year,
+    TRY_CAST(opened_year AS INT) AS opened_year,
     from source
 )
 

@@ -11,7 +11,7 @@ cleaned as (
     {{ string_titlecase("title")}} AS title,
     {{ string_titlecase("item_type")}} AS item_type,
     {{ string_titlecase("category")}} AS category,
-    -- replacement_cost
+    {{ clean_gbp("replacement_cost")}} AS replacement_cost,
     home_branch_id,
     from source
 )
