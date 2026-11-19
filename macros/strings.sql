@@ -3,7 +3,8 @@
     REGEXP_REPLACE(
       {{column_name}},
       '[ |_]+',
-      ' '
+      ' ',
+      'g'
     )
   )
 {% endmacro %}
@@ -20,3 +21,31 @@ list_aggregate(
     ' '
 )
 {% endmacro %}
+
+{% macro string_category(column_name) %}
+-- The most aggressive normaliser
+  regexp_replace(
+        lower({{ string_strip(column_name) }}),
+        '[ _-]|s$|''',
+        '',
+        'g'
+    )
+{% endmacro %}
+
+{% macro map_category(column_name, mapping) %}
+
+    CASE
+        {% for key, values in mapping.items() %}
+            WHEN {{ column_name }} IN (
+                {% for value in values %}
+                    '{{ value }}'{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            )
+            THEN '{{ key }}'
+        {% endfor %}
+
+        ELSE NULL
+    END
+
+{% endmacro %}
+

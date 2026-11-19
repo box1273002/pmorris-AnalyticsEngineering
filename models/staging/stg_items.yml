@@ -16,17 +16,22 @@ models:
         data_tests:
           - accepted_values:
               arguments:
-                values: ["Dvd", "Audiobook", "Book", NULL]
+                values: ["DVD", "Audiobook", "Book", NULL]
       - name: category
         description: The genre/category of the item (Non-Fiction)
         data_tests:
-          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Children", "Reference", "Film", "Fiction", "Non-Fiction", NULL]
       - name: replacement_cost
         description: The replacement cost of the item in GBP.
         data_tests:
           - dbt_expectations.expect_column_values_to_be_of_type:
               arguments: 
                 column_type: DECIMAL(10,2)
+          - dbt_utils.expression_is_true:
+              arguments:
+                  expression: "> 0"
       - name: home_branch_id
         description: The id of the home branch of the item.
         data_tests:

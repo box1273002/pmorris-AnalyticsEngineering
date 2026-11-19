@@ -9,11 +9,30 @@ cleaned as (
   select 
     item_id,
     {{ string_titlecase("title")}} AS title,
-    {{ string_titlecase("item_type")}} AS item_type,
-    {{ string_titlecase("category")}} AS category,
+    {{ map_category(
+      string_category("item_type"),
+      {
+        'DVD': ['dvd'],
+        'Audiobook': ['audiobook'],
+        'Book': ['book']
+      }
+    )
+    }} AS item_type,
+    {{ map_category(
+      string_category("category"),
+      {
+        'Children': ['children'],
+        'Reference': ['ref.', 'reference'],
+        'Film': ['film'],
+        'Fiction': ['fiction'],
+        'Non-Fiction': ['nonfiction']
+      }
+    )
+    }} AS category,
     {{ clean_gbp("replacement_cost")}} AS replacement_cost,
     home_branch_id,
     from source
 )
+-- Consider filtering
 
 select * from cleaned
