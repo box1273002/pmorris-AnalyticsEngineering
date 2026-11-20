@@ -25,7 +25,7 @@ list_aggregate(
 {% macro string_category(column_name) %}
 -- The most aggressive normaliser
   regexp_replace(
-        lower({{ string_strip(column_name) }}),
+        lower({{ column_name }}),
         '[ _-]|''',
         '',
         'g'
@@ -33,7 +33,6 @@ list_aggregate(
 {% endmacro %}
 
 {% macro map_category(column_name, mapping) %}
-
     CASE
         {% for key, values in mapping.items() %}
             WHEN {{ column_name }} IN (
@@ -46,6 +45,14 @@ list_aggregate(
 
         ELSE NULL
     END
+{% endmacro %}
 
+{% macro regex_check(column_name, regex) %}
+CASE
+  WHEN
+    regexp_full_match({{ column_name }}, {{ dbt.string_literal(regex) }})
+    THEN {{ column_name }}
+    ELSE NULL
+  END
 {% endmacro %}
 
