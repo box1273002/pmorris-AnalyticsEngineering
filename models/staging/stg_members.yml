@@ -25,6 +25,14 @@ models:
           - accepted_values:
               arguments:
                 values: ["Standard", "Junior", "Concession", NULL]
+      - name: home_branch_id
+        description: The id of the home branch of the member.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_branches')
+                field: branch_id
       - name: postcode
         description: The postcode of the members home address.
         data_tests:
