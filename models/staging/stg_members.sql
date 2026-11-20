@@ -8,7 +8,7 @@ source as (
 cleaned as (
   select 
     member_id,
-    join_date,
+    {{ extract_date(string_strip("join_date")) }} as join_date,
     {{ map_category(
       string_category("age_band"),
       {
