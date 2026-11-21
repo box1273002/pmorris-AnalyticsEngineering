@@ -46,4 +46,4 @@ models:
         data_tests:
           - dbt_utils.expression_is_true:
               arguments:
-                  expression: "IS NULL OR ( opened_year <= EXTRACT(YEAR FROM CURRENT_DATE) AND opened_year > {{ var('min_opened_year') }})"
+                  expression: "IS NULL OR (opened_year <= EXTRACT(YEAR FROM CURRENT_DATE) AND opened_year > {{ var('min_opened_year') }})"

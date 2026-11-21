@@ -5,8 +5,9 @@ models:
       - name: item_id
         description: The unique key for each item.
         data_tests:
-          - not_null
-          - unique
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments: 
+                column_type: VARCHAR
       - name: title
         description: The title of the item.
         data_tests:
@@ -31,6 +32,29 @@ models:
           - dbt_expectations.expect_column_values_to_be_of_type:
               arguments: 
                 column_type: DECIMAL(10,2)
+      - name: home_branch_id
+        description: The id of the home branch of the item.
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments: 
+                column_type: VARCHAR
+  - name: int_items
+    description: Item data including type, category and replacement_cost.
+    columns:
+      - name: item_id
+        description: The unique key for each item.
+        data_tests:
+          - not_null
+          - unique
+      - name: title
+        description: The title of the item.
+      - name: item_type
+        description: The type of the item (e.g Book, DVD)
+      - name: category
+        description: The genre/category of the item (Non-Fiction)
+      - name: replacement_cost
+        description: The replacement cost of the item in GBP.
+        data_tests:
           - dbt_utils.expression_is_true:
               arguments:
                   expression: "> 0"
@@ -40,6 +64,7 @@ models:
           - not_null
           - relationships:
               arguments:
-                to: ref('stg_branches')
+                to: ref('int_branches')
                 field: branch_id
+
 
