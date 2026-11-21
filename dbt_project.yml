@@ -21,3 +21,7 @@ models:
     silver:
       01_standardization:
         +materialized: view
+      02_validation:
+        +materialized: view
+vars:
+  min_opened_year: 1900

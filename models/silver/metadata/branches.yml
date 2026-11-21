@@ -1,0 +1,49 @@
+# TODO add a way of not repeating descriptions or columns that haven't changed. 
+# It is not worth a generator at this point though.
+models:
+  - name: stg_branches
+    description: Standardised branch data.
+    columns:
+      - name: branch_id
+        description: The unique key for each branch.
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments: 
+                column_type: VARCHAR
+      - name: branch_name
+        description: The plain text branch name.
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments: 
+                column_type: VARCHAR
+      - name: area
+        description: The area where the branch is located (North, South, East, West)
+        data_tests:
+          - accepted_values:
+                arguments:
+                  values: ['North', 'South', 'East', 'West', NULL]
+      - name: opened_year
+        description: The year in which the branch was opened
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments: 
+                column_type: BIGINT
+
+  - name: int_branches
+    description: Branch data with some basic cleaning/validation applied. 
+    columns:
+      - name: branch_id
+        description: The unique key for each branch.
+        data_tests:
+          - not_null
+          - unique
+      - name: branch_name
+        description: The plain text branch name.
+      - name: area
+        description: The area where the branch is located (North, South, East, West)
+      - name: opened_year
+        description: The year in which the branch was opened
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                  expression: "IS NULL OR ( opened_year <= EXTRACT(YEAR FROM CURRENT_DATE) AND opened_year > {{ var('min_opened_year') }})"

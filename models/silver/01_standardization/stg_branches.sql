@@ -1,15 +1,27 @@
-with
+WITH
 
-source as (
+source AS (
 
-    select distinct * from {{ ref('raw_branches') }}
+    SELECT * FROM {{ ref('raw_branches') }}
 
 ),
-cleaned as (
-  select 
-    * EXCLUDE(opened_year),
-    TRY_CAST(opened_year AS INT) AS opened_year,
-    from source
+
+standardized AS (
+  SELECT 
+    UPPER({{ string_strip("branch_id") }}) as branch_id,
+    {{ string_titlecase("branch_name")}} as branch_name,
+    {{ map_category(
+      string_category("area"),
+      {
+        'North': ['north'],
+        'East': ['east'],
+        'South': ['south'],
+        'West': ['west'],
+      }
+    )
+    }} AS area,
+    opened_year,
+    FROM source
 )
 
-select * from cleaned
+SELECT * FROM standardized
