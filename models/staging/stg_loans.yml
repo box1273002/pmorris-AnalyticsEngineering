@@ -1,0 +1,58 @@
+models:
+  - name: stg_loans
+    description: A table containing basic information about item loans in the library.
+    columns:
+      - name: loan_id
+        description: An id uniquely identifying the loan.
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments: 
+                column_type: VARCHAR
+      - name: member_id
+        description: The id of the member which the item was loaned to.
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments: 
+                column_type: VARCHAR
+      - name: item_id
+        description: The id of the item which was loaned out
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments: 
+                column_type: VARCHAR
+      - name: branch_id
+        description: The id of the branch which the item was loaned out from.
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments: 
+                column_type: VARCHAR
+      - name: loan_date
+        description: The date at which the item was loaned out.
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: DATE
+      - name: due_date
+        description: The date which the item must be returned by.
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: DATE
+      - name: return_date
+        description: The date which the item was returned on.
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: DATE
+      - name: is_returned
+        description: Boolean variable describing whether the item has been returned. (Used to differentiate between malformed return_date and missing return_date i.e not returned yet)
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: boolean
+      - name: fine_charged
+        description: The fine that was charged when the item was returned.
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: DECIMAL(10,2)
