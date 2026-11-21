@@ -25,3 +25,4 @@ models:
         +materialized: view
 vars:
   min_opened_year: 1900
+
