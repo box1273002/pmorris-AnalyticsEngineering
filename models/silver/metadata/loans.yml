@@ -1,6 +1,6 @@
 models:
   - name: stg_loans
-    description: A table containing basic information about item loans in the library.
+    description: Loan data with standardization applied.
     columns:
       - name: loan_id
         description: An id uniquely identifying the loan.

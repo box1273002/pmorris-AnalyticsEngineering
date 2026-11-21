@@ -30,7 +30,7 @@ models:
                 column_type: BIGINT
 
   - name: int_branches
-    description: Branch data with some basic cleaning/validation applied. 
+    description: Branch data with cleaning/validation applied. 
     columns:
       - name: branch_id
         description: The unique key for each branch.

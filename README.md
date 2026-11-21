@@ -5,3 +5,5 @@
 ### Items
   - Convert absolute value of replacement cost as negative doesn't make sense (likely just it would cost use -XXXX)
 
+## TODO
+- Find a better way of selecting distinct (only order if there are duplicates basically make that whole idea better)

@@ -1,6 +1,6 @@
 models:
   - name: stg_items
-    description: Item data including type, category and replacement_cost.
+    description: Item data with standardization applied.
     columns:
       - name: item_id
         description: The unique key for each item.
@@ -39,7 +39,7 @@ models:
               arguments: 
                 column_type: VARCHAR
   - name: int_items
-    description: Item data including type, category and replacement_cost.
+    description: Item data with cleaning/validation applied.
     columns:
       - name: item_id
         description: The unique key for each item.
@@ -55,9 +55,10 @@ models:
       - name: replacement_cost
         description: The replacement cost of the item in GBP.
         data_tests:
+          # TODO This passes even if its null because it checks for explicitly false WWWHHHYY?
           - dbt_utils.expression_is_true:
               arguments:
-                  expression: "> 0"
+                  expression: " > 0"
       - name: home_branch_id
         description: The id of the home branch of the item.
         data_tests:
