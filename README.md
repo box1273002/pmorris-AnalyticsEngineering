@@ -7,3 +7,4 @@
 
 ## TODO
 - Find a better way of selecting distinct (only order if there are duplicates basically make that whole idea better)
+- Find a better alternative to dbt_utils as it check not false rather than true.

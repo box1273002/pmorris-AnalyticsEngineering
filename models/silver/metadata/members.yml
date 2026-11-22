@@ -1,0 +1,74 @@
+models:
+  - name: stg_members
+    description: Item data with standardization applied.
+    columns:
+      - name: member_id
+        description: Unique key indentifying the member.
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments: 
+                column_type: VARCHAR
+      - name: join_date
+        description: The date at which the member joined.
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: DATE
+      - name: age_band
+        description: The age band of the member (e.g <12)
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["<12", "12-17", "18-34", "35-59","60+", NULL]
+      - name: membership_type
+        description: The type of the membership (e.g. Junior)
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["Standard", "Junior", "Concession", NULL]
+      - name: home_branch_id
+        description: The id of the home branch of the member.
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: VARCHAR
+      - name: postcode
+        description: The postcode of the members home address.
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: VARCHAR
+  - name: int_members
+    description: Item data with cleaning/validation applied.
+    columns:
+      - name: member_id
+        description: Unique key indentifying the member.
+        data_tests:
+          - not_null
+          - unique
+      - name: join_date
+        description: The date at which the member joined.
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "< current_date and (extract(year from join_date) >= (select opened_year from {{ ref('int_branches') }} where branch_id = home_branch_id))"
+      - name: age_band
+        description: The age band of the member (e.g <12)
+      - name: membership_type
+        description: The type of the membership (e.g. Junior)
+      - name: home_branch_id
+        description: The id of the home branch of the member.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('int_branches')
+                field: branch_id
+      - name: postcode
+        description: The postcode of the members home address.
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                # I am aware this is pretty much the same logic as the sql but twice means if I screw it up in one place it is likely to be caught
+                expression: "is null or (regexp_full_match(postcode, '^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})$'))" 
+

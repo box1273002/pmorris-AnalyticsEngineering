@@ -1,2 +1,2 @@
 [tool.sqlfmt]
-exclude=["target/**/*", "dbt_packages/**/*"]
+exclude=["target/**/*", "dbt_packages/**/*", "logs/**"]
