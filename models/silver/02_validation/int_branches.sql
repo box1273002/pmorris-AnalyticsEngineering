@@ -8,7 +8,7 @@ with
             case
                 when
                     opened_year > {{ var("min_opened_year") }}
-                    and opened_year < extract(year from current_date)
+                    and opened_year <= extract(year from current_date)
                 then opened_year
                 else null
             end as opened_year

@@ -5,7 +5,15 @@ with
     -- Checks the foreigns key are all valid and deletes the rows if not (this may need
     -- to be rethought as somepoint as it my still be useful imformation)
     filtered as (
-        select * exclude (replacement_cost), abs(replacement_cost) as replacement_cost
+        select
+            * exclude (replacement_cost),
+            -- If the replacement_cost cost below zero they likely mean its - £15 in
+            -- our books.
+            coalesce(replacement_cost < 0, false) as negative_replacement,
+            case
+                when replacement_cost then abs(replacement_cost) else replacement_cost
+            end as replacement_cost
+
         from source
         where
             (item_id is not null)
